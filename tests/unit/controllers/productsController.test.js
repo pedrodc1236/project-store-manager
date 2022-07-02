@@ -87,5 +87,97 @@ describe('Testando produtos camada de controle', () => {
         expect(response.json.calledWith({ message: 'Product not found' })).to.be.true;
       })
     })
+
+    describe('Consulta se insere um novo produto no BD', () => {
+      describe('quando o "name" é inválido ou não existe', () => {
+        const nameNotExists = { code: 400, message: '"name" is required' };
+        const request = {};
+        const response = {};
+        before(() => {
+          request.body = { name: '' };
+
+          response.status = sinon.stub().returns(response);
+          response.json = sinon.stub().returns();
+
+          sinon.stub(productsService, 'create').resolves(nameNotExists);
+        })
+        after(() => {
+          productsService.create.restore();
+        })
+
+        it('Se o "nome" não existir deve retornar o codigo 400', async () => {
+          await productsController.create(request, response);
+
+          expect(response.status.calledWith(nameNotExists.code)).to.be.true;
+        })
+        it('Se o "nome" não existir deve retornar a mensagem "name is required"', async () => {
+          await productsController.create(request, response);
+
+          expect(response.json.calledWith({ message: nameNotExists.message })).to.be.true;
+        })
+      })
+
+      describe('quando o "nome" tem menos de 5 caracteres', () => {
+        const productNotLengthValid = {
+          code: 422,
+          message: '"name" length must be at least 5 characters long',
+        };
+        const request = {};
+        const response = {};
+        before(() => {
+          request.body = { name: 'Prod' };
+
+          response.status = sinon.stub().returns(response);
+          response.json = sinon.stub().returns();
+
+          sinon.stub(productsService, 'create').resolves(productNotLengthValid);
+        })
+        after(() => {
+          productsService.create.restore();
+        });
+
+        it('Se o "nome" conter menos de 5 caracteres deve retornar o codigo 422', async () => {
+          await productsController.create(request, response);
+
+          expect(response.status.calledWith(productNotLengthValid.code)).to.be.true;
+        })
+        it('Se o "nome" conter menos de 5 caracteres deve retornar a mensagem esperada', async () => {
+          await productsController.create(request, response);
+
+          expect(response.json.calledWith({ message: productNotLengthValid.message })).to.be.true;
+        })
+      })
+
+      describe('Quando o "nome" é valído e o produto é criado com sucesso', () => {
+        const productValid = {
+          id: 4,
+          name: 'ProductX'
+        };
+        const request = {};
+        const response = {};
+        before(() => {
+          request.body = { name: 'ProductX' };
+
+          response.status = sinon.stub().returns(response);
+          response.json = sinon.stub().returns();
+
+          sinon.stub(productsService, 'create').resolves(productValid);
+        })
+        after(() => {
+          productsService.create.restore();
+        })
+
+        it('O status deve retornar o código 201', async () => {
+          await productsController.create(request, response)
+
+          expect(response.status.calledWith(201)).to.be.true;
+        })
+        it('O json deve retornar um objeto contendo o nome do produto e seu id', async () => {
+          await productsController.create(request, response)
+
+          expect(response.json.calledWith(productValid)).to.be.true;
+        })
+      })
+    })
   })
 });

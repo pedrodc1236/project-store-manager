@@ -40,4 +40,26 @@ describe('Testando produtos camada de model', () => {
       expect(response1).to.deep.equal(productsMock[0][0]);
     });
   });
+
+  describe('Consulta se insere um novo produto no BD', () => {
+    const newProduct = { name: 'ProductX' };
+
+    before(() => {
+      sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
+    })
+    after(() => {
+      connection.execute.restore();
+    })
+
+    it('Se retorna um objeto', async () => {
+      const response = await productsModel.create(newProduct.name);
+
+      expect(response).to.be.a('object');
+    })
+    it('Se o objeto contém um id', async () => {
+      const response = await productsModel.create(newProduct.name);
+
+      expect(response).to.be.property('id');
+    })
+  });
 });

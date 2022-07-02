@@ -54,5 +54,50 @@ describe('Testando a camada de serviço', () => {
       expect(response).to.deep.equal(null);
     });
   });
+
+   describe('Consulta se insere um novo produto no BD', () => {
+     describe('quando o "name" é inválido ou não existe', () => {
+       const productNotExists = { name: '' };
+       const productNotLengthValid = { name: 'prod' }
+       before(() => {
+         sinon.stub(productsModel, 'create').resolves({ id: 4 })
+       })
+       after(() => {
+         productsModel.create.restore();
+       })
+       
+       it('Se o "nome" não existir deve retornar uma mensagem e um codigo 400', async () => {
+         const response = await productsService.create(productNotExists.name)
+         
+         expect(response.code).to.deep.equal(400);
+       })
+       it('Se o "nome" não tiver pelo menos 5 caracteres deve retornar uma mensagem e o codigo 422', async () => {
+         const response = await productsService.create(productNotLengthValid.name)
+         
+         expect(response.code).to.deep.equal(422);
+       })
+     })
+
+     describe('Quando é inserido com sucesso', () => {
+       const productValid = { name: 'ProductX' }
+       before(() => {
+        sinon.stub(productsModel, 'create').resolves({ id: 4, name: 'ProductX' })
+       })
+       after(() => {
+         productsModel.create.restore();
+       })
+
+       it('Se retorna um objeto', async () => {
+         const response = await productsService.create(productValid.name);
+
+         expect(response).to.be.a('object');
+       })
+       it ('Se retorna um objeto com as propriedades "id" e "name"', async () => {
+         const response = await productsService.create(productValid.name);
+
+         expect(response).to.includes.all.keys('id', 'name');
+       })
+     })
+  });
 });
 
