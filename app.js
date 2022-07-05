@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const Product = require('./controllers/productsController');
+const Sale = require('./controllers/salesController');
 
 const app = express();
 // PR
@@ -13,6 +14,10 @@ app.get('/products', Product.getAll);
 app.get('/products/:id', Product.findById);
 
 app.post('/products', Product.create);
+
+app.post('/sales', Sale.createSaleProduct);
+
+// app.post('/sales', );
 
 // não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (_request, response) => {

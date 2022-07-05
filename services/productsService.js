@@ -35,7 +35,7 @@ const create = async (name) => {
 
   return product;
 };
-  
+ 
 module.exports = {
   getAll,
   findById,
