@@ -17,7 +17,9 @@ app.post('/products', Product.create);
 
 app.post('/sales', Sale.createSaleProduct);
 
-// app.post('/sales', );
+app.get('/sales', Sale.getAllList);
+
+app.get('/sales/:id', Sale.findById);
 
 // não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (_request, response) => {

@@ -28,9 +28,10 @@ const valid = (arrayNumber, products) => {
   return true;
 };
 
-let saleId;
+let idSale;
 
 const createSaleProduct = ({ productId, quantity }) => {
+  const saleId = idSale;
   const saleProduct = saleModel.createSaleProduct({ saleId, productId, quantity });
   return saleProduct;
 };
@@ -44,9 +45,31 @@ const saleService = {
     reqBody.forEach((el) => arrayNumber.push(el.productId));
     const validateId = await valid(arrayNumber, products);
     if (!validateId) return { code: 404, message: 'Product not found' };
-    saleId = await saleModel.createSale();
+    idSale = await saleModel.createSale();
     const sold = await Promise.all(reqBody.map(createSaleProduct));
-    return { id: saleId, itemsSold: sold };
+    return { id: idSale, itemsSold: sold };
+  },
+  getAllList: async () => {
+    const result = await saleModel.getAllList();
+    const listSales = result.map(({ sale_id: saleId, date, product_id: productId, quantity }) => ({
+      date,
+      saleId,
+      productId,
+      quantity,
+    }));
+    return listSales;
+  },
+  findById: async (id) => {
+    const result = await saleModel.findById(id);
+    const specificSale = result.map(({ date, product_id: productId, quantity }) => ({
+      date,
+      productId,
+      quantity,
+    }));
+
+    if (specificSale.length === 0) return { code: 404, message: 'Sale not found' };
+
+    return specificSale;
   },
 }; 
 

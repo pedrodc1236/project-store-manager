@@ -11,16 +11,7 @@ describe('Testando vendas camada de controle', () => {
       const request = {}
 
       before(() => {
-        request.body = [
-          {
-            "productId": 1,
-            "quantity":1
-          },
-          {
-            "productId": 2,
-            "quantity":5
-          }
-        ]
+        request.body = salesMock.returnCreateSale;
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
         sinon.stub(saleService, 'createSale').resolves(salesMock.returnCreateSale)
@@ -44,16 +35,7 @@ describe('Testando vendas camada de controle', () => {
       const request = {}
 
       before(() => {
-        request.body = [
-          {
-            "productId": 50,
-            "quantity":1
-          },
-          {
-            "productId": 2,
-            "quantity":5
-          }
-        ]
+        request.body = salesMock.reqBodyProductIdInexistent;
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
         sinon.stub(saleService, 'createSale').resolves({ code: 404, message: 'Product not found' })
