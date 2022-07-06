@@ -40,7 +40,35 @@ describe('Testando vendas camada de controle', () => {
     })
 
     describe('Se não passar por alguma validação', () => {
-      //parei aqui
+      const response = {}
+      const request = {}
+
+      before(() => {
+        request.body = [
+          {
+            "productId": 50,
+            "quantity":1
+          },
+          {
+            "productId": 2,
+            "quantity":5
+          }
+        ]
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+        sinon.stub(saleService, 'createSale').resolves({ code: 404, message: 'Product not found' })
+      })
+      after(() => {
+        saleService.createSale.restore();
+      })
+      it('Deve retornar o status 200', async () => {
+        await salesController.createSaleProduct(request, response);
+        expect(response.status.calledWith(404)).to.be.true;
+      })
+      it('Deve retornar a mensagem esperada', async () => {
+        await salesController.createSaleProduct(request, response);
+        expect(response.json.calledWith({ message: 'Product not found' })).to.be.true;
+      })
     })
   })
 })
