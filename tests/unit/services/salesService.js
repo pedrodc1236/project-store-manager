@@ -90,4 +90,39 @@ describe('Testando vendas camada de servico', () => {
       })
     })
   })
+
+  describe('Testa função getAllList', () => {
+    before(() => {
+      sinon.stub(salesModel, 'getAllList').resolves(salesMock.getAllListBefore[0]);
+    })
+    after(() => {
+      salesModel.getAllList.restore();
+    })
+    it('Se retorna um array', async () => {
+      const result = await saleService.getAllList();
+      expect(result).to.be.a('array');
+    });
+    it('Se retorna o array de objetos esperado', async () => {
+      const result = await saleService.getAllList();
+      expect(result).to.be.deep.equal(salesMock.getAllList[0]);
+    })
+  })
+
+  describe('Testa função findById', () => {
+    const id = 1;
+    before(() => {
+      sinon.stub(salesModel, 'findById').resolves(salesMock.findByIdBefore[0])
+    })
+    after(() => {
+      salesModel.findById.restore();
+    })
+    it('Se retorna um array', async () => {
+      const result = await saleService.findById(id);
+      expect(result).to.be.a('array');
+    });
+    it('Se retorna o array de objetos esperado', async () => {
+      const result = await saleService.findById(id);
+      expect(result).to.be.deep.equal(salesMock.findByIdAfter[0]);
+    });
+  })
 })

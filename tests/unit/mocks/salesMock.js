@@ -65,6 +65,60 @@ const returnCreateSale = {
   ]
 }
 
+const getAllList = [
+  [
+    {
+      "date": "2022-07-07T01:46:37.000Z",
+      "saleId": 1,
+      "productId": 2,
+      "quantity": 10
+    },
+    {
+      "date": "2022-07-07T01:46:37.000Z",
+      "saleId": 2,
+      "productId": 3,
+      "quantity": 15
+    }
+  ]
+]
+
+const getAllListBefore = [
+  [
+    {
+      "date": "2022-07-07T01:46:37.000Z",
+      "sale_id": 1,
+      "product_id": 2,
+      "quantity": 10
+    },
+    {
+      "date": "2022-07-07T01:46:37.000Z",
+      "sale_id": 2,
+      "product_id": 3,
+      "quantity": 15
+    }
+  ]
+]
+
+const findByIdBefore = [
+  [
+    {
+      "date": "2022-07-07T01:46:37.000Z",
+      "product_id": 2,
+      "quantity": 10
+    }
+  ]
+]
+
+const findByIdAfter = [
+  [
+    {
+      "date": "2022-07-07T01:46:37.000Z",
+      "productId": 2,
+      "quantity": 10
+    }
+  ]
+]
+
 module.exports = {
   reqBody,
   reqBodyNotProductId,
@@ -72,4 +126,8 @@ module.exports = {
   reqBodyQuantityNot0,
   reqBodyProductIdInexistent,
   returnCreateSale,
+  getAllList,
+  findByIdBefore,
+  findByIdAfter,
+  getAllListBefore,
 };

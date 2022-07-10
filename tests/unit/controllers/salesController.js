@@ -52,5 +52,26 @@ describe('Testando vendas camada de controle', () => {
         expect(response.json.calledWith({ message: 'Product not found' })).to.be.true;
       })
     })
+    describe('Testando a função getAllList', () => {
+      const response = {}
+      const request = {}
+
+      before(() => {
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+        sinon.stub(saleService, 'getAllList').resolves(salesMock.getAllList[0]);
+      })
+      after(() => {
+        sinon.restore();
+      })
+      it('Deve retornar o status 200', async () => {
+        await salesController.getAllList(request, response);
+        expect(response.status.calledWith(200)).to.be.true;
+      })
+      it('Deve retornar a lista de vendas', async () => {
+        await salesController.getAllList(request, response);
+        expect(response.json.calledWith(salesMock.getAllList[0])).to.be.true;
+      })
+    });
   })
 })
