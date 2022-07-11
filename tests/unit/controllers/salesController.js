@@ -73,5 +73,56 @@ describe('Testando vendas camada de controle', () => {
         expect(response.json.calledWith(salesMock.getAllList[0])).to.be.true;
       })
     });
+    describe('Testando a função findById', () => {
+      describe('Caso o id passado não seja valido', () => {
+        const idNotValidReturn = { code: 404, message: 'Sale not found' };
+        const response = {}
+        const request = {}
+        before(() => {
+          request.params = { id: 50 };
+
+          response.status = sinon.stub().returns(response);
+          response.json = sinon.stub().returns();
+
+          sinon.stub(saleService, 'findById').resolves(idNotValidReturn);
+        })
+        after(() => {
+          sinon.restore();
+        })
+
+        it('Deve retornar o status 404', async () => {
+          await salesController.findById(request, response);
+          expect(response.status.calledWith(404)).to.be.true;
+        })
+        it('O json deve retornar uma mensagem', async () => {
+          await salesController.findById(request, response);
+          expect(response.json.calledWith({ message: idNotValidReturn.message })).to.be.true;
+        })
+      })
+      describe('Caso o id passado seja valido', () => {
+        const response = {}
+        const request = {}
+        before(() => {
+          request.params = { id: 1 };
+
+          response.status = sinon.stub().returns(response);
+          response.json = sinon.stub().returns();
+
+          sinon.stub(saleService, 'findById').resolves(salesMock.findByIdAfter[0]);
+        })
+        after(() => {
+          sinon.restore();
+        })
+
+        it('Deve retornar o status 200', async () => {
+          await salesController.findById(request, response);
+          expect(response.status.calledWith(200)).to.be.true;
+        })
+        it('O json deve retornar um array de objetos esperado', async () => {
+          await salesController.findById(request, response);
+          expect(response.json.calledWith(salesMock.findByIdAfter[0])).to.be.true;
+        })
+      })
+    })
   })
 })

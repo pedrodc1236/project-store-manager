@@ -4,13 +4,18 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/product",
-    "url": "http://localhost:3000/sales",
+    "url": "http://localhost:3000/sales/2",
     "method": "GET",
     "sortNum": 0,
     "created": "2022-06-30T20:57:18.327Z",
-    "modified": "2022-07-10T17:45:38.352Z",
+    "modified": "2022-07-11T00:32:52.960Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "  {\n    \"name\": \"luquinha\"\n  }",
+      "form": []
+    },
     "tests": []
   }
 ]

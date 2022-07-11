@@ -68,7 +68,6 @@ const saleService = {
     }));
 
     if (specificSale.length === 0) return { code: 404, message: 'Sale not found' };
-
     return specificSale;
   },
 }; 

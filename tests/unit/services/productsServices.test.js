@@ -99,5 +99,131 @@ describe('Testando a camada de serviço', () => {
        })
      })
   });
+  describe('Consulta se atualiza o nome de um produto', () => {
+    describe('Caso o id ou name seja invalido', () => {
+      describe('Caso não exista o campo name', () => {
+        const nameNotExists = { id: 1, name: undefined }
+        const returnError400 = { code: 400, message: '"name" is required' }
+        before(() => {
+          sinon.stub(productsModel, 'updateProduct').resolves(nameNotExists);
+          sinon.stub(productsModel, 'findById').resolves({ id: 1, name: 'Martelo de Thor' });
+        })
+        after(() => {
+          sinon.restore();
+        })
+
+        it('Se retorna um objeto', async () => {
+          const response = await productsService.updateProduct(1, undefined);
+          expect(response).to.be.a('object');
+        })
+        it('Se retorna um objeto com as chaves code e message assim como esperado', async () => {
+          const response = await productsService.updateProduct(1, undefined);
+          expect(response).to.be.deep.equal(returnError400);
+        })
+      })
+      describe('Caso o campo name tenha menos de 5 caracteres', () => {
+        const nameNotLengthRequired = { id: 1, name: 'Prod' }
+        const returnError422 = {
+          code: 422,
+          message: '"name" length must be at least 5 characters long',
+        };
+        before(() => {
+          sinon.stub(productsModel, 'updateProduct').resolves(nameNotLengthRequired);
+          sinon.stub(productsModel, 'findById').resolves({ id: 1, name: 'Martelo de Thor' });
+        })
+        after(() => {
+          sinon.restore();
+        })
+
+        it('Se retorna um objeto', async () => {
+          const response = await productsService.updateProduct(1, 'Prod');
+          expect(response).to.be.a('object');
+        })
+        it('Se retorna um objeto com as chaves code e message assim como esperado', async () => {
+          const response = await productsService.updateProduct(1, 'Prod');
+          expect(response).to.be.deep.equal(returnError422);
+        })
+      })
+      describe('Caso o id do produto passado não exista', () => {
+        const idNotExists = { id: 50, name: 'Martelo do Batman' }
+        const productNotFound = { code: 404, message: 'Product not found' };
+        before(() => {
+          sinon.stub(productsModel, 'updateProduct').resolves(idNotExists);
+          sinon.stub(productsModel, 'findById').resolves(null);
+        })
+        after(() => {
+          sinon.restore();
+        })
+
+        it('Se retorna um objeto', async () => {
+          const response = await productsService.updateProduct(50, 'Martelo do Batman');
+          expect(response).to.be.a('object');
+        })
+        it('Se retorna um objeto com as chaves code e message assim como esperado', async () => {
+          const response = await productsService.updateProduct(50, 'Martelo do Batman');
+          expect(response).to.be.deep.equal(productNotFound);
+        })
+      })
+    })
+    describe('Caso o id e o nome são validos', () => {
+      const idNameATT = { id: 1, name: "Martelo do Batman" }
+      before(() => {
+        sinon.stub(productsModel, 'updateProduct').resolves(idNameATT);
+        sinon.stub(productsModel, 'findById').resolves({ id: 1, name: 'Martelo de Thor' });
+      })
+      after(() => {
+        sinon.restore();
+      })
+
+      it('Se retorna um objeto', async () => {
+        const response = await productsService.updateProduct(idNameATT.id, idNameATT.name);
+        expect(response).to.be.a('object');
+      })
+      it('Se retorna o objeto esperado caso dê tudo certo', async () => {
+        const response = await productsService.updateProduct(idNameATT.id, idNameATT.name);
+        expect(response).to.be.deep.equal(idNameATT);
+      })
+    })
+  })
+  describe('Consulta se deleta um produto através do id', () => {
+    describe('Caso o id passado seja inválido', () => {
+      const idNotExists = { id: 1, name: 'Martelo de Thor' }
+      before(() => {
+        sinon.stub(productsModel, 'deleteProduct').resolves(idNotExists);
+        sinon.stub(productsModel, 'findById').resolves(null);
+      })
+      after(() => {
+        sinon.restore();
+      })
+
+      it('Se retorna um objeto', async () => {
+        const response = await productsService.deleteProduct(idNotExists.id);
+        expect(response).to.be.a('object');
+      })
+      it('Se retorna um objeto com as chaves code e message assim como esperado', async () => {
+        const response = await productsService.deleteProduct(idNotExists.id);
+        expect(response).to.be.deep.equal({ code: 404, message: 'Product not found' });
+      })
+    })
+    describe('Caso o id passado seja válido', () => {
+      const idValid = { id: 1, name: 'Martelo de Thor' }
+      before(() => {
+        sinon.stub(productsModel, 'deleteProduct').resolves(true);
+        sinon.stub(productsModel, 'findById').resolves(idValid);
+      })
+      after(() => {
+        sinon.restore();
+      })
+
+      it('Se retorna um boolean', async () => {
+        const response = await productsService.deleteProduct(idValid.id);
+        expect(response).to.be.a('boolean');
+      })
+      it('Se retorna true', async () => {
+        const response = await productsService.deleteProduct(idValid.id);
+        expect(response).to.be.true;
+      })
+    }) 
+  })
 });
 

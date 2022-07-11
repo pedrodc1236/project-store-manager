@@ -23,6 +23,7 @@ const findById = async (id) => {
 
   if (!product) return null;
 
+  console.log(product);
   return product;
 };
 
@@ -56,7 +57,8 @@ const deleteProduct = async (id) => {
   if (!existsId) return { code: 404, message: 'Product not found' };
 
   const productDelete = await ProductModel.deleteProduct(id);
-
+  
+  console.log(productDelete);
   return productDelete;
 };
 

@@ -109,20 +109,42 @@ describe('Testando vendas camada de servico', () => {
   })
 
   describe('Testa função findById', () => {
-    const id = 1;
-    before(() => {
-      sinon.stub(salesModel, 'findById').resolves(salesMock.findByIdBefore[0])
+    describe('Caso o id passado seja invalido', () => {
+      const idInvalidReturn = { code: 404, message: 'Sale not found' }
+      const id = 50;
+      before(() => {
+        sinon.stub(salesModel, 'findById').resolves([])
+      })
+      after(() => {
+        salesModel.findById.restore();
+      })
+
+      it('Se retorna um objeto', async () => {
+        const result = await saleService.findById(id);
+        expect(result).to.be.a('object');
+      })
+      it('Se retorna o objeto esperado', async () => {
+        const result = await saleService.findById(id);
+        expect(result).to.be.deep.equal(idInvalidReturn);
+      })
     })
-    after(() => {
-      salesModel.findById.restore();
-    })
-    it('Se retorna um array', async () => {
-      const result = await saleService.findById(id);
-      expect(result).to.be.a('array');
-    });
-    it('Se retorna o array de objetos esperado', async () => {
-      const result = await saleService.findById(id);
-      expect(result).to.be.deep.equal(salesMock.findByIdAfter[0]);
-    });
+    describe('Caso o id passado seja valido', () => {
+      const id = 1;
+      before(() => {
+        sinon.stub(salesModel, 'findById').resolves(salesMock.findByIdBefore[0])
+      })
+      after(() => {
+        salesModel.findById.restore();
+      })
+
+      it('Se retorna um array', async () => {
+        const result = await saleService.findById(id);
+        expect(result).to.be.a('array');
+      });
+      it('Se retorna o array de objetos esperado', async () => {
+        const result = await saleService.findById(id);
+        expect(result).to.be.deep.equal(salesMock.findByIdAfter[0]);
+      });
+    })    
   })
 })
