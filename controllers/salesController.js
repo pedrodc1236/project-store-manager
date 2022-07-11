@@ -37,6 +37,16 @@ const saleController = {
 
     res.status(updateResult.code).json(updateResult.update);
   },
+  deleteSale: async (req, res) => {
+    const { id } = req.params;
+    const deleteResult = await saleService.deleteSale(id);
+
+    if (deleteResult.message) {
+      return res.status(deleteResult.code).json({ message: deleteResult.message });
+    }
+
+    res.status(204).end();
+  },
 };
 
 module.exports = saleController;
