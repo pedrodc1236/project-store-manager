@@ -62,10 +62,16 @@ const deleteProduct = async (id) => {
   return productDelete;
 };
 
+const query = async (q) => {
+  const products = await ProductModel.query(q);
+  return products;
+};
+
 module.exports = {
   getAll,
   findById,
   create,
   updateProduct,
   deleteProduct,
+  query,
 };

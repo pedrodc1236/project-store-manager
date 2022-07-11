@@ -4,13 +4,19 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/product",
-    "url": "http://localhost:3000/sales/2",
-    "method": "DELETE",
+    "url": "http://localhost:3000/products/search?q=",
+    "method": "GET",
     "sortNum": 0,
     "created": "2022-06-30T20:57:18.327Z",
-    "modified": "2022-07-11T04:33:00.181Z",
+    "modified": "2022-07-11T17:25:12.852Z",
     "headers": [],
-    "params": [],
+    "params": [
+      {
+        "name": "q",
+        "value": "",
+        "isPath": false
+      }
+    ],
     "body": {
       "type": "json",
       "raw": " [\n    {\n      \"productId\": 1,\n      \"quantity\":10\n    },\n    {\n      \"productId\": 2,\n      \"quantity\":50\n    }\n]",
