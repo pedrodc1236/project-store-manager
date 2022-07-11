@@ -29,11 +29,17 @@ const valid = (arrayNumber, products) => {
 };
 
 let idSale;
+let idUpdate;
 
 const createSaleProduct = ({ productId, quantity }) => {
   const saleId = idSale;
   const saleProduct = saleModel.createSaleProduct({ saleId, productId, quantity });
   return saleProduct;
+};
+
+const updateSaleProduct = ({ productId, quantity }) => {
+  const update = saleModel.updateSale(idUpdate, quantity, productId);
+  return update;
 };
 
 const saleService = {
@@ -69,6 +75,21 @@ const saleService = {
 
     if (specificSale.length === 0) return { code: 404, message: 'Sale not found' };
     return specificSale;
+  },
+  updateSale: async (id, produtos) => {
+    const validSale = await saleModel.findById(id);
+    if (validSale.length === 0) return { code: 404, message: 'Sale not found' };
+    const isValidProdutos = isValid(produtos);
+    if (isValidProdutos.code) return isValidProdutos;
+    const products = await saleModel.getAll();
+    const arrayNumber = [];
+    produtos.forEach((el) => arrayNumber.push(el.productId));
+    const validateId = await valid(arrayNumber, products);
+    if (!validateId) return { code: 404, message: 'Product not found' };
+    idUpdate = id;
+    const itemsUpdated = await Promise.all(produtos.map(updateSaleProduct));
+
+    return { code: 200, update: { saleId: id, itemsUpdated } };
   },
 }; 
 

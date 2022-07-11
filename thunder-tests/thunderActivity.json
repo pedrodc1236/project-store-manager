@@ -4,16 +4,16 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/product",
-    "url": "http://localhost:3000/sales/2",
-    "method": "GET",
+    "url": "http://localhost:3000/sales/1",
+    "method": "PUT",
     "sortNum": 0,
     "created": "2022-06-30T20:57:18.327Z",
-    "modified": "2022-07-11T00:32:52.960Z",
+    "modified": "2022-07-11T02:58:52.389Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "  {\n    \"name\": \"luquinha\"\n  }",
+      "raw": " [\n    {\n      \"productId\": 1,\n      \"quantity\":10\n    },\n    {\n      \"productId\": 2,\n      \"quantity\":50\n    }\n]",
       "form": []
     },
     "tests": []

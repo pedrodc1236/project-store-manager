@@ -25,6 +25,8 @@ app.get('/sales', Sale.getAllList);
 
 app.get('/sales/:id', Sale.findById);
 
+app.put('/sales/:id', Sale.updateSale);
+
 // não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
