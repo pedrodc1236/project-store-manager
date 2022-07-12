@@ -111,4 +111,21 @@ describe('Testando produtos camada de model', () => {
       expect(response).to.equal(true);
     })
   })
+  describe('Consulta se retorna a lista de produtos através da query', () => {
+    before(() => {
+      sinon.stub(connection, 'execute').resolves([[productsMock[0][0]]]);
+    })
+    after(() => {
+      sinon.restore();
+    })
+
+    it('Se retorna um array', async () => {
+      const response = await productsModel.query('Martelo');
+      expect(response).to.be.a('array');
+    })
+    it('Se retorna o array de objeto esperado', async () => {
+      const response = await productsModel.query('Martelo');
+      expect(response).to.be.deep.equal([productsMock[0][0]]);
+    })
+  })
 });

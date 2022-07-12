@@ -119,6 +119,39 @@ const findByIdAfter = [
   ]
 ]
 
+const mockFindById = [
+  { "date": "2022-07-12T04:07:41.000Z", "productId": 1, "quantity": 5 },
+  { "date": "2022-07-12T04:07:41.000Z", "productId": 2, "quantity": 10 }
+]
+
+const updateMock = [
+  {
+    "productId": 1,
+    "quantity":10
+  },
+  {
+    "productId": 2,
+    "quantity":50
+  }
+]
+
+const updateServiceReturn = {
+  code: 200,
+  update: {
+    "saleId": 1,
+    "itemsUpdated": [
+      {
+        "productId": 1,
+        "quantity":10
+      },
+      {
+        "productId": 1,
+        "quantity":10
+      }
+    ]
+  }
+}
+
 module.exports = {
   reqBody,
   reqBodyNotProductId,
@@ -130,4 +163,7 @@ module.exports = {
   findByIdBefore,
   findByIdAfter,
   getAllListBefore,
+  mockFindById,
+  updateMock,
+  updateServiceReturn
 };

@@ -339,4 +339,28 @@ describe('Testando produtos camada de controle', () => {
       })
     })
   })
+  describe('Consulta se retorna a lista de produtos através da query', () => {
+    const request = {}
+    const response = {}
+    before(() => {
+      request.query = { q: 'Martelo' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(productsService, 'query').resolves([productsMock[0][0]]);
+    })
+    after(() => {
+      sinon.restore();
+    })
+
+    it('O status deve retornar o código 200', async () => {
+      await productsController.query(request, response);
+      expect(response.status.calledWith(200)).to.be.true;
+    })
+    it('O json deve retornar um array de produtos com o nome passado na query', async () => {
+      await productsController.query(request, response);
+      expect(response.json.calledWith([productsMock[0][0]])).to.be.true;
+    })
+  })
 });

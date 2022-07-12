@@ -147,4 +147,206 @@ describe('Testando vendas camada de servico', () => {
       });
     })    
   })
+  describe('Testa a função updateSale', () => {
+    describe('Caso o id ou produtos sejam invalidos', () => {
+      describe('Caso não exista o campo productsId', () => {
+        const productsNotExists = [
+          {
+            "quantity":10
+          },
+          {
+            "productId": 2,
+            "quantity":50
+          }
+        ]
+        const returnError400 = { code: 400, message: '"productId" is required' }
+        before(() => {
+          sinon.stub(salesModel, 'updateSale').resolves(productsNotExists[0]);
+          sinon.stub(salesModel, 'findById').resolves(salesMock.mockFindById);
+        })
+        after(() => {
+          sinon.restore();
+        })
+
+        it('Se retorna um objeto', async () => {
+          const response = await saleService.updateSale(1, productsNotExists);
+          expect(response).to.be.a('object');
+        })
+        it('Se retorna um objeto com as chaves code e message assim como esperado', async () => {
+          const response = await saleService.updateSale(1, productsNotExists);
+          expect(response).to.be.deep.equal(returnError400);
+        })
+      })
+      describe('Caso não exista o campo quantity', () => {
+        const quantityNotExists = [
+          {
+            "productId": 1,
+          },
+          {
+            "productId": 2,
+            "quantity":50
+          }
+        ]
+        const returnError400 = { code: 400, message: '"quantity" is required' };;
+        before(() => {
+          sinon.stub(salesModel, 'updateSale').resolves(quantityNotExists[0]);
+          sinon.stub(salesModel, 'findById').resolves(salesMock.mockFindById);
+        })
+        after(() => {
+          sinon.restore();
+        })
+
+        it('Se retorna um objeto', async () => {
+          const response = await saleService.updateSale(1, quantityNotExists);
+          expect(response).to.be.a('object');
+        })
+        it('Se retorna um objeto com as chaves code e message assim como esperado', async () => {
+          const response = await saleService.updateSale(1, quantityNotExists);
+          expect(response).to.be.deep.equal(returnError400);
+        })
+      })
+       describe('Caso quantity seja menor que 1', () => {
+        const quantityNot = [
+          {
+            "productId": 1,
+            "quantity":0
+          },
+          {
+            "productId": 2,
+            "quantity":50
+          }
+        ]
+        const returnError422 = {
+          code: 422,
+          message: '"quantity" must be greater than or equal to 1',
+        };
+        before(() => {
+          sinon.stub(salesModel, 'updateSale').resolves(quantityNot[0]);
+          sinon.stub(salesModel, 'findById').resolves(salesMock.mockFindById);
+        })
+        after(() => {
+          sinon.restore();
+        })
+
+        it('Se retorna um objeto', async () => {
+          const response = await saleService.updateSale(1, quantityNot);
+          expect(response).to.be.a('object');
+        })
+        it('Se retorna um objeto com as chaves code e message assim como esperado', async () => {
+          const response = await saleService.updateSale(1, quantityNot);
+          expect(response).to.be.deep.equal(returnError422);
+        })
+      })
+      describe('Caso o id do produto passado não exista', () => {
+        const idNotExists = 50;
+        const validSale = { code: 404, message: 'Sale not found' }        
+        before(() => {
+          sinon.stub(salesModel, 'updateSale').resolves(salesMock.updateMock[0]);
+          sinon.stub(salesModel, 'findById').resolves([]);
+        })
+        after(() => {
+          sinon.restore();
+        })
+
+        it('Se retorna um objeto', async () => {
+          const response = await saleService.updateSale(idNotExists, salesMock.updateMock);
+          expect(response).to.be.a('object');
+        })
+        it('Se retorna um objeto com as chaves code e message assim como esperado', async () => {
+          const response = await saleService.updateSale(idNotExists, salesMock.updateMock);
+          expect(response).to.be.deep.equal(validSale);
+        })
+      })
+    })
+     describe('Caso o productI seja de um produto que não exista', () => {
+        const quantityNot = [
+          {
+            "productId": 50,
+            "quantity":10
+          },
+          {
+            "productId": 2,
+            "quantity":50
+          }
+        ]
+        const returnError404 = { code: 404, message: 'Product not found' }
+        before(() => {
+          sinon.stub(salesModel, 'updateSale').resolves(quantityNot[0]);
+          sinon.stub(salesModel, 'findById').resolves(salesMock.mockFindById);
+          sinon.stub(salesModel, 'getAll').resolves(produckMock[0]);
+        })
+        after(() => {
+          sinon.restore();
+        })
+
+        it('Se retorna um objeto', async () => {
+          const response = await saleService.updateSale(1, quantityNot);
+          expect(response).to.be.a('object');
+        })
+        it('Se retorna um objeto com as chaves code e message assim como esperado', async () => {
+          const response = await saleService.updateSale(1, quantityNot);
+          expect(response).to.be.deep.equal(returnError404);
+        })
+      })
+    describe('Caso o id e os produtos sejam validos', () => {
+      const idValid = 1;
+      before(() => {
+        sinon.stub(salesModel, 'updateSale').resolves(salesMock.updateMock[0]);
+        sinon.stub(salesModel, 'findById').resolves(salesMock.mockFindById);
+        sinon.stub(salesModel, 'getAll').resolves(produckMock[0]);
+      })
+      after(() => {
+        sinon.restore();
+      })
+
+      it('Se retorna um objeto', async () => {
+        const response = await saleService.updateSale(idValid, salesMock.updateMock);
+        expect(response).to.be.a('object');
+      })
+      it('Se retorna o objeto esperado caso dê tudo certo', async () => {
+        const response = await saleService.updateSale(idValid, salesMock.updateMock);
+        expect(response).to.be.deep.equal(salesMock.updateServiceReturn);
+      })
+    })
+  })
+  describe('Testa função deleteSale', () => {
+    describe('Caso o id passado seja inválido', () => {
+      const idNotExists = 50;
+      before(() => {
+        sinon.stub(salesModel, 'deleteSale').resolves(true);
+        sinon.stub(salesModel, 'findById').resolves([]);
+      })
+      after(() => {
+        sinon.restore();
+      })
+
+      it('Se retorna um objeto', async () => {
+        const response = await saleService.deleteSale(idNotExists);
+        expect(response).to.be.a('object');
+      })
+      it('Se retorna um objeto com as chaves code e message assim como esperado', async () => {
+        const response = await saleService.deleteSale(idNotExists);
+        expect(response).to.be.deep.equal({ code: 404, message: 'Sale not found' });
+      })
+    })
+    describe('Caso o id passado seja válido', () => {
+      const idValid = 1;
+      before(() => {
+        sinon.stub(salesModel, 'deleteSale').resolves(true);
+        sinon.stub(salesModel, 'findById').resolves(salesMock.mockFindById);
+      })
+      after(() => {
+        sinon.restore();
+      })
+
+      it('Se retorna um boolean', async () => {
+        const response = await saleService.deleteSale(idValid);
+        expect(response).to.be.a('boolean');
+      })
+      it('Se retorna true', async () => {
+        const response = await saleService.deleteSale(idValid);
+        expect(response).to.deep.equal(true);
+      })
+    })
+  })
 })

@@ -99,4 +99,38 @@ describe('Testando vendas camada de model', () => {
       expect(result).to.equal(salesMock.findByIdBefore[0]);
     })
   })
+  describe('Consulta se atualiza um produto', () => {
+    before(() => {
+      sinon.stub(connection, 'execute').resolves()
+    })
+    after(() => {
+      sinon.restore();
+    })
+
+    it('Se retorna um objeto', async () => {
+      const response = await salesModel.updateSale(1, 10, 1);
+      expect(response).to.be.a('object');
+    })
+    it('Se retorna o objeto esperado', async () => {
+      const response = await salesModel.updateSale(1, 10, 1);
+      expect(response).to.be.deep.equal(salesMock.updateMock[0])
+    })
+  })
+  describe('Testa a função deleteSale', () => {
+    before(() => {
+      sinon.stub(connection, 'execute').resolves()
+    })
+    after(() => {
+      sinon.restore();
+    })
+
+    it('Se retorna um booleano', async () => {
+      const response = await salesModel.deleteSale(1);
+      expect(response).to.be.a('boolean');
+    })
+    it('Se retorna true', async () => {
+      const response = await salesModel.deleteSale(1);
+      expect(response).to.equal(true);
+    })
+  })
 });

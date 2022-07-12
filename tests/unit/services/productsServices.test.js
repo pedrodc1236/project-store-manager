@@ -225,5 +225,22 @@ describe('Testando a camada de serviço', () => {
       })
     }) 
   })
+  describe('Consulta se retorna a lista de produtos através da query', () => {
+    before(() => {
+      sinon.stub(productsModel, 'query').resolves([productsMock[0][0]]);
+    })
+    after(() => {
+      sinon.restore();
+    })
+
+    it('Se retorna um array', async () => {
+      const response = await productsService.query('Martelo');
+      expect(response).to.be.a('array');
+    })
+    it('Se retorna o array com o objeto esperado', async () => {
+      const response = await productsService.query('Martelo');
+      expect(response).to.be.deep.equal([productsMock[0][0]]);
+    })
+  })
 });
 
