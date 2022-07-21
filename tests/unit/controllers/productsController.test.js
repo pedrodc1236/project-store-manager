@@ -4,7 +4,6 @@ const { expect } = require('chai');
 const productsService = require('../../../services/productsService');
 const productsController = require('../../../controllers/productsController');
 const productsMock = require('../mocks/productsMock');
-const { response } = require('express');
 
 describe('Testando produtos camada de controle', () => {
   describe('Consulta a listagem de todos os produtos', () => {
