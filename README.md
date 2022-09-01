@@ -62,7 +62,7 @@ Após cada um dos passos, haverá um exemplo do comando a ser digitado para faze
   - **:warning: Atenção:** Não rode o comando npm audit fix! Ele atualiza várias dependências do projeto, e essa atualização gera conflitos com o avaliador.
 
 
-## Foram aplicadas as seguintes tecnologias no projeto:
+## Foram desenvolvidas as seguintes habilidades: 
 
 ▪ Node.js
 ▪ Express
