@@ -20,6 +20,17 @@ A API construída é um sistema de gerenciamento de vendas no formato dropshippi
 
 Foi testada cada camada e consegui realizar 100% de cobertura da aplicação, sem faltar sequer uma linha a ser testada, o que me deixou bastante orgulhoso !
 
+## Foram desenvolvidas as seguintes habilidades: 
+
+- Node.js
+- Express
+- Arquitetura de Software
+- MySQL
+- Nodemon
+- Docker
+- CRUD
+- Frameworks de Testes: Mocha, Chai e Sinon;
+
 ## Instalação do projeto localmente:
  
 Após cada um dos passos, haverá um exemplo do comando a ser digitado para fazer o que está sendo pedido, caso tenha dificuldades e o exemplo não seja suficiente, não hesite em me contatar em através do gmail: pedrodc1236@gmail.com 
@@ -60,15 +71,3 @@ Após cada um dos passos, haverá um exemplo do comando a ser digitado para faze
   - **:warning: Atenção:** O **git** dentro do container não vem configurado com suas credenciais. Ou faça os commits fora do container, ou configure as suas credenciais do git dentro do container.
 
   - **:warning: Atenção:** Não rode o comando npm audit fix! Ele atualiza várias dependências do projeto, e essa atualização gera conflitos com o avaliador.
-
-
-## Foram desenvolvidas as seguintes habilidades: 
-
-- Node.js
-- Express
-- Arquitetura de Software
-- MySQL
-- Nodemon
-- Docker
-- CRUD
-- Frameworks de Testes: Mocha, Chai e Sinon;
