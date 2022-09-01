@@ -64,11 +64,11 @@ Após cada um dos passos, haverá um exemplo do comando a ser digitado para faze
 
 ## Foram desenvolvidas as seguintes habilidades: 
 
-▪ Node.js
-▪ Express
-▪ Arquitetura de Software
-▪ MySQL
-▪ Nodemon
-▪ Docker
-▪ CRUD
-▪ Frameworks de Testes: Mocha, Chai e Sinon;
+- Node.js
+- Express
+- Arquitetura de Software
+- MySQL
+- Nodemon
+- Docker
+- CRUD
+- Frameworks de Testes: Mocha, Chai e Sinon;
