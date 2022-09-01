@@ -1,5 +1,6 @@
 <h1 align="center"> Projeto Store Manager 💻 </h1>
 <h2 align="center"> Arquitetura de Software & Testes Unitários </h2>
+
  <div align="center">
  
  ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
@@ -9,7 +10,7 @@
  ![Mocha](https://img.shields.io/badge/-mocha-%238D6748?style=for-the-badge&logo=mocha&logoColor=white)
  
 </div>
-<br/> <br/>
+<br/>
 
 <h2 align="left"> Sobre: </h2>
 Nesse projeto de back-end pratiquei Arquitetura de Software. Foi proposta a construção de uma API utilizando o ambiente Node.js e o framework Express.
